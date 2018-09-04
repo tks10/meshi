@@ -3,7 +3,6 @@ package com.takashi.meshi.ui
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +46,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.talk_list_item, parent, false)
+                .inflate(R.layout.meshi_list_item, parent, false)
         return ViewHolder(view)
     }
 
