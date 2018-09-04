@@ -47,11 +47,11 @@ class Api {
         }
 
         // Auth
-        suspend fun getMeshi(id: String): Meshi {
+        suspend fun getMeshi(id: String): List<Meshi> {
             return apiService.getMeshi(id).await()
         }
 
-        suspend fun registMeshi(meshi: Meshi) {
+        suspend fun registMeshi(meshi: Meshi): Any {
             return apiService.registMeshi(meshi).await()
         }
     }

@@ -12,6 +12,6 @@ interface ApiService {
 
     // Auth
     @POST("api/example/")
-    fun registMeshi(@Body meshi: Meshi)
+    fun registMeshi(@Body meshi: Meshi): Deferred<Any>
 
 }
