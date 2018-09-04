@@ -20,15 +20,37 @@ import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
 class MeshiTopFragment : Fragment() {
 
     private val um by lazy { UUIDManager(activity!!) }
+    private val meshies = mutableListOf<Meshi>()
+    private val adapter: RecyclerView.Adapter<MeshiListAdapter.ViewHolder> by lazy {
+        MeshiListAdapter(activity!!.applicationContext, meshies)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.meshi_top_fragment, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.meshi_list)
 
         view.postMeshiButton.setOnClickListener {
             (activity as NavigationHost).navigateTo(EditProfileFragment(), true)
         }
+        recyclerView.adapter = adapter
+
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "OMUSUBI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "OMUSUBI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "YAKISOBA", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        adapter.notifyDataSetChanged()
 
         return view
     }
@@ -52,13 +74,10 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meshi = meshies[position]
-        val imageUrl =  meshi.image_url.let {
-            BuildConfig.IP_API + it.substring(1)
-        }
-
+        val imageUrl =  "http://localhost:8000/"
         GlideApp.with(context)
-                .load(imageUrl)
-                .fallback(R.drawable.add_photo)
+                .load(R.drawable.onigiri)
+                .fallback(R.drawable.onigiri)
                 .into(holder.imageView)
         holder.memoTextView.text = meshi.memo
         // holder.userNameTextView.text = meshi.category_id
