@@ -2,7 +2,9 @@ package com.takashi.meshi.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.takashi.meshi.R
+
 
 class MainActivity : AppCompatActivity() {
 
