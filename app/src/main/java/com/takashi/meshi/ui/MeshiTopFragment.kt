@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.takashi.meshi.R
 import com.takashi.meshi.util.UUIDManager
+import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
 
 
 class MeshiTopFragment : Fragment() {
@@ -18,6 +19,9 @@ class MeshiTopFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.meshi_top_fragment, container, false)
 
+        view.postMeshiButton.setOnClickListener {
+            (activity as NavigationHost).navigateTo(EditProfileFragment(), true)
+        }
 
         return view
     }
