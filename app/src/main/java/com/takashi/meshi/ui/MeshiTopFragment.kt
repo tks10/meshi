@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.takashi.meshi.BuildConfig
 import com.takashi.meshi.R
 import com.takashi.meshi.model.Meshi
 import com.takashi.meshi.util.GlideApp
 import com.takashi.meshi.util.UUIDManager
+import com.takashi.meshi.util.getDateTime
 import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
 
 
@@ -37,9 +37,15 @@ class MeshiTopFragment : Fragment() {
         recyclerView.adapter = adapter
 
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1536046423))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536032023))
+        meshies.add(Meshi("", "", "KARE-", 1, 1536032023))
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1536026423))
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1536012023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536006423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535992023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536046423))
+        meshies.add(Meshi("", "", "OMUSUBI", 1, 1536032023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536026423))
+        meshies.add(Meshi("", "", "YAKISOBA", 1, 1536012023))
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1536006423))
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1535992023))
 
@@ -55,7 +61,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.meshi_icon)
         val memoTextView: TextView = view.findViewById(R.id.meshi_memo)
-        // val userNameTextView: TextView = view.findViewById(R.id.talk_user_name)
+        val dateTimeTextView: TextView = view.findViewById(R.id.date_time_text_view)
         // val dateTextView: TextView = view.findViewById(R.id.talk_date)
     }
 
@@ -73,7 +79,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
                 .fallback(R.drawable.onigiri)
                 .into(holder.imageView)
         holder.memoTextView.text = meshi.memo
-        // holder.userNameTextView.text = meshi.category_id
+        holder.dateTimeTextView.text = getDateTime(meshi.created_at)
     }
 
     override fun getItemCount() = meshies.size
