@@ -2,6 +2,7 @@ package com.takashi.meshi.api
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.takashi.meshi.BuildConfig
+import com.takashi.meshi.model.Meshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
