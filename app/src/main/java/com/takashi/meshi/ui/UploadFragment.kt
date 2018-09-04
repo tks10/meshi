@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
+import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,8 @@ import java.io.IOException
 
 class EditProfileFragment : Fragment() {
 
-    private val RESULT_PICK_IMAGEFILE: Int = 1001
+    private val RESULT_PICK_IMAGEFILE = 1001
+    private val RESULT_CAMERA = 1002
     private lateinit var imageView: ImageView
     private lateinit var imageUri: Uri
     private var originalName: String? = null
@@ -30,17 +32,13 @@ class EditProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.upload_fragment, container, false)
         val intentFuncLiteral = { _: View ->
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-
-            // Filter to only show results that can be "opened", such as a
-            // file (as opposed to a list of contacts or timezones)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
             // Filter to show only images, using the image MIME data type.
             // it would be "*/*".
-            intent.type = "*/*"
+            // intent.type = "*/*"
 
-            startActivityForResult(intent, RESULT_PICK_IMAGEFILE)
+            startActivityForResult(intent, RESULT_CAMERA)
         }
 
         view.next_button.setOnClickListener{
@@ -101,6 +99,19 @@ class EditProfileFragment : Fragment() {
                         e.printStackTrace()
                     }
                 }
+            }
+        }
+
+        when(requestCode) {
+            RESULT_CAMERA -> {
+                var bitmap: Bitmap
+                // cancelしたケースも含む
+                resultData?.extras?.let {
+                    bitmap = resultData.extras.get("data") as Bitmap
+                    add_photo_button.visibility = View.INVISIBLE
+                    this.imageView.setImageBitmap(bitmap)
+                    this.view?.next_button?.isEnabled = true
+                } ?: return
             }
         }
     }
