@@ -38,10 +38,10 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
     : RecyclerView.Adapter<MeshiListAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.talk_icon)
-        val talkTextView: TextView = view.findViewById(R.id.talk_text)
-        val userNameTextView: TextView = view.findViewById(R.id.talk_user_name)
-        val dateTextView: TextView = view.findViewById(R.id.talk_date)
+        val imageView: ImageView = view.findViewById(R.id.meshi_icon)
+        val memoTextView: TextView = view.findViewById(R.id.meshi_memo)
+        // val userNameTextView: TextView = view.findViewById(R.id.talk_user_name)
+        // val dateTextView: TextView = view.findViewById(R.id.talk_date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,8 +60,8 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
                 .load(imageUrl)
                 .fallback(R.drawable.add_photo)
                 .into(holder.imageView)
-        holder.talkTextView.text = meshi.memo
-        holder.userNameTextView.text = meshi.category_id
+        holder.memoTextView.text = meshi.memo
+        // holder.userNameTextView.text = meshi.category_id
     }
 
     override fun getItemCount() = meshies.size
