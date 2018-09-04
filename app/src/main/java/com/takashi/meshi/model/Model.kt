@@ -5,5 +5,5 @@ data class Meshi (
         val thumb_url: String,
         val memo: String,
         val category_id: Int,
-        val created_at: String
+        val created_at: Long
 )
