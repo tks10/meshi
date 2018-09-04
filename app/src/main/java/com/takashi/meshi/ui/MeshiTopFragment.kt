@@ -36,20 +36,13 @@ class MeshiTopFragment : Fragment() {
         }
         recyclerView.adapter = adapter
 
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "OMUSUBI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "OMUSUBI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "YAKISOBA", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, ""))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536046423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536032023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536026423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536012023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536006423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535992023))
+
         adapter.notifyDataSetChanged()
 
         return view
