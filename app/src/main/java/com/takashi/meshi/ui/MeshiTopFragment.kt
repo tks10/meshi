@@ -20,6 +20,7 @@ import com.dena2018.protein.onetimechat.util.ApiErrorHandler
 import com.dena2018.protein.onetimechat.util.ImageConverter
 import com.dena2018.protein.onetimechat.util.UUIDManager
 import com.takashi.meshi.R
+import com.takashi.meshi.util.UUIDManager
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 import kotlinx.android.synthetic.main.sign_up_fragment.view.*
 import kotlinx.coroutines.experimental.android.UI
@@ -36,7 +37,7 @@ class SignUpFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.meshi_top_fragment, container, false)
-        
+
 
         return view
     }
