@@ -9,7 +9,7 @@ import com.takashi.meshi.R
 import com.takashi.meshi.util.UUIDManager
 
 
-class SignUpFragment : Fragment() {
+class MeshiTopFragment : Fragment() {
 
     private val um by lazy { UUIDManager(activity!!) }
 

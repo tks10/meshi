@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.container, SignUpFragment())
+                    .add(R.id.container, MeshiTopFragment())
                     .commit()
         }
     }
