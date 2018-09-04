@@ -31,9 +31,6 @@ class Api {
             client.addInterceptor { chain ->
                 val original = chain.request()
                 val request = with(original.newBuilder()){
-                    if (Token.get() != null){
-                        header("Authorization", "JWT ${Token.get()!!.token}")
-                    }
                     method(original.method(), original.body())
                 }.build()
                 chain.proceed(request)
@@ -49,47 +46,12 @@ class Api {
         }
 
         // Auth
-        suspend fun signIn(email: String, password: String): Token {
-            return apiService.signIn(SignIn(email, password)).await()
+        suspend fun getMeshi(id: String): Meshi {
+            return apiService.getMeshi(id).await()
         }
 
-        suspend fun signInWithUuid(uuid: String): Token {
-            return apiService.signInWithUuid(Uuid(uuid)).await()
+        suspend fun registMeshi(meshi: Meshi) {
+            return apiService.registMeshi(meshi).await()
         }
-
-        suspend fun signUpWithUuid(uuid: String): Token {
-            return apiService.signUpWithUuid(Uuid(uuid)).await()
-        }
-
-        // TalkRoom
-        suspend fun getTalkRoomList(): TalkRoomContainer {
-            return apiService.getTalkRooms().await()
-        }
-
-        suspend fun getTalkRoom(roomId: String): TalkRoom {
-            return apiService.getTalkRoom(roomId).await()
-        }
-
-        suspend fun createTalkRoom(roomId: String, iconBase64: String): TalkRoom {
-            return apiService.createTalkRoom(TalkRoomCreator(roomId, iconBase64)).await()
-        }
-
-        suspend fun joinToTalkRoom(roomId: String): TalkRoom {
-            return apiService.joinToTalkRoom(roomId).await()
-        }
-
-        suspend fun getMessages(roomId: String): MessageContainer {
-            return apiService.getMessages(roomId).await()
-        }
-
-        // User
-        suspend fun getUser(): User {
-            return apiService.getUser().await()
-        }
-
-        suspend fun updateUser(name: String, iconBase64: String): User {
-            return apiService.updateUser(UserUpdater(name, iconBase64)).await()
-        }
-
     }
 }
