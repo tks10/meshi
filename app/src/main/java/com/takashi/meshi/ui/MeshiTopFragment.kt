@@ -62,7 +62,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
         val imageView: ImageView = view.findViewById(R.id.meshi_icon)
         val memoTextView: TextView = view.findViewById(R.id.meshi_memo)
         val dateTimeTextView: TextView = view.findViewById(R.id.date_time_text_view)
-        // val dateTextView: TextView = view.findViewById(R.id.talk_date)
+        val border: View = view.findViewById(R.id.border)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -80,6 +80,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
                 .into(holder.imageView)
         holder.memoTextView.text = meshi.memo
         holder.dateTimeTextView.text = getDateTime(meshi.created_at)
+        holder.border.layoutParams.height = 150
     }
 
     override fun getItemCount() = meshies.size
