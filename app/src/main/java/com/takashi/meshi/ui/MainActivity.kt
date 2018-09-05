@@ -9,7 +9,7 @@ import com.takashi.meshi.util.UuidManager
 
 
 class MainActivity : AppCompatActivity(), NavigationHost {
-    val uuidManager = UuidManager(this)
+    val uuidManager by lazy { UuidManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
