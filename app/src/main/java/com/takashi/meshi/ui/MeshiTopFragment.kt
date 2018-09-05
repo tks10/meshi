@@ -10,10 +10,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.takashi.meshi.R
+import com.takashi.meshi.api.Api
 import com.takashi.meshi.model.Meshi
+import com.takashi.meshi.util.ApiErrorHandler
 import com.takashi.meshi.util.GlideApp
+import com.takashi.meshi.util.UuidManager
 import com.takashi.meshi.util.getDateTime
 import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
+import kotlinx.android.synthetic.main.upload_fragment.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import kotlin.math.max
 
 
@@ -51,6 +57,17 @@ class MeshiTopFragment : Fragment() {
         adapter.notifyDataSetChanged()
 
         return view
+    }
+
+    private fun uploadMeshies() {
+        launch (UI) {
+            try {
+                val meshiContainer = Api.getMeshi(UuidManager(activity!!).getIdFromPreference()!!)
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                ApiErrorHandler.map(view!!, t).post()
+            }
+        }
     }
 }
 

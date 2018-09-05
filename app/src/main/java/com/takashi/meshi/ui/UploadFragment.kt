@@ -16,8 +16,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.takashi.meshi.R
 import com.takashi.meshi.api.Api
-import com.takashi.meshi.model.Meshi
 import com.takashi.meshi.model.MeshiUploader
+import com.takashi.meshi.util.ApiErrorHandler
 import com.takashi.meshi.util.ImageConverter
 import com.takashi.meshi.util.UuidManager
 import kotlinx.android.synthetic.main.upload_fragment.*
@@ -26,6 +26,10 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import java.io.FileDescriptor
 import java.io.IOException
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
+
+
 
 
 class UploadFragment : Fragment() {
@@ -80,13 +84,31 @@ class UploadFragment : Fragment() {
     }
 
     private fun registMeshi(meshiUploader: MeshiUploader) {
+        val rotate = RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f)
+
+        // animation時間 msec
+        rotate.duration = 700
+        // 繰り返し回数
+        rotate.repeatCount = 1000
+        // animationが終わったそのまま表示にする
+        rotate.fillAfter = true
+
         launch (UI) {
             try {
+                view?.next_button?.isEnabled = false
+                view?.loadingImageView?.visibility = View.VISIBLE
+                view?.loadingImageView?.startAnimation(rotate)
+                view?.scrollView?.alpha = 0.15f
                 Api.registMeshi(meshiUploader)
                 activity!!.supportFragmentManager.popBackStack()
             } catch (t: Throwable) {
                 t.printStackTrace()
-                // ApiErrorHandler.map(view!!, t).post()
+                view?.next_button?.isEnabled = true
+                view?.loadingImageView?.visibility = View.INVISIBLE
+                view?.scrollView?.alpha = 1.0f
+                ApiErrorHandler.map(view!!, t).post()
             }
         }
     }
