@@ -12,7 +12,6 @@ import android.widget.TextView
 import com.takashi.meshi.R
 import com.takashi.meshi.model.Meshi
 import com.takashi.meshi.util.GlideApp
-import com.takashi.meshi.util.UUIDManager
 import com.takashi.meshi.util.getDateTime
 import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
 import kotlin.math.max
@@ -20,7 +19,6 @@ import kotlin.math.max
 
 class MeshiTopFragment : Fragment() {
 
-    private val um by lazy { UUIDManager(activity!!) }
     private val meshies = mutableListOf<Meshi>()
     private val adapter: RecyclerView.Adapter<MeshiListAdapter.ViewHolder> by lazy {
         MeshiListAdapter(activity!!.applicationContext, meshies)
@@ -33,7 +31,7 @@ class MeshiTopFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.meshi_list)
 
         view.postMeshiButton.setOnClickListener {
-            (activity as NavigationHost).navigateTo(EditProfileFragment(), true)
+            (activity as NavigationHost).navigateTo(UploadFragment(), true)
         }
         recyclerView.adapter = adapter
 

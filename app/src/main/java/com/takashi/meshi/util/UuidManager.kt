@@ -4,7 +4,7 @@ import android.content.Context
 import java.util.*
 
 
-class UUIDManager(val context: Context){
+class UuidManager(val context: Context){
     companion object {
         val PREF_NAME = "ID"
         val KEY = "UUID"

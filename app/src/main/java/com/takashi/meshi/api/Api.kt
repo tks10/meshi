@@ -2,7 +2,10 @@ package com.takashi.meshi.api
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.takashi.meshi.BuildConfig
+import com.takashi.meshi.model.Id
 import com.takashi.meshi.model.Meshi
+import com.takashi.meshi.model.MeshiUploader
+import com.takashi.meshi.model.TestContainer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -51,8 +54,16 @@ class Api {
             return apiService.getMeshi(id).await()
         }
 
-        suspend fun registMeshi(meshi: Meshi): Any {
-            return apiService.registMeshi(meshi).await()
+        suspend fun registMeshi(meshiUploader: MeshiUploader): Any {
+            return apiService.registMeshi(meshiUploader).await()
+        }
+
+        suspend fun test(id: Int): TestContainer {
+            return apiService.test(Id(id.toString())).await()
+        }
+
+        suspend fun test(): Any {
+            return apiService.test().await()
         }
     }
 }

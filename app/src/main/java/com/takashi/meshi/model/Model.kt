@@ -8,7 +8,13 @@ data class Meshi (
         val created_at: Long
 )
 
-data class Id(val id: Int)
+data class MeshiUploader (
+        val id: String,
+        val memo: String,
+        val image_base64: String
+)
+
+data class Id(val id: String)
 
 data class TestContainer(val Items: List<Test>)
 

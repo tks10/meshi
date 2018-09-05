@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
@@ -16,6 +17,9 @@ import android.widget.ImageView
 import com.takashi.meshi.R
 import com.takashi.meshi.api.Api
 import com.takashi.meshi.model.Meshi
+import com.takashi.meshi.model.MeshiUploader
+import com.takashi.meshi.util.ImageConverter
+import com.takashi.meshi.util.UuidManager
 import kotlinx.android.synthetic.main.upload_fragment.*
 import kotlinx.android.synthetic.main.upload_fragment.view.*
 import kotlinx.coroutines.experimental.android.UI
@@ -24,7 +28,7 @@ import java.io.FileDescriptor
 import java.io.IOException
 
 
-class EditProfileFragment : Fragment() {
+class UploadFragment : Fragment() {
 
     private val RESULT_PICK_IMAGEFILE = 1001
     private val RESULT_CAMERA = 1002
@@ -45,8 +49,17 @@ class EditProfileFragment : Fragment() {
             startActivityForResult(intent, RESULT_CAMERA)
         }
 
+        view.next_button.isEnabled = true
         view.next_button.setOnClickListener{
-            // registMeshi(meshi)
+            val bitmapIcon = this@UploadFragment.imageView.drawable?.let {
+                (it as BitmapDrawable).bitmap
+            } ?: BitmapFactory.decodeResource(resources, R.drawable.onigiri)
+            val imageBase64 = ImageConverter.convertToBase64(bitmapIcon)
+            val meshiUploader = MeshiUploader(UuidManager(activity!!).getIdFromPreference()!!,
+                    view.username_edit_text.text.toString(),
+                    imageBase64)
+
+            registMeshi(meshiUploader)
         }
         view.cancel_button.setOnClickListener {
             activity!!.supportFragmentManager.popBackStack()
@@ -66,10 +79,10 @@ class EditProfileFragment : Fragment() {
         return view
     }
 
-    private fun registMeshi(meshi: Meshi) {
+    private fun registMeshi(meshiUploader: MeshiUploader) {
         launch (UI) {
             try {
-                Api.registMeshi(meshi)
+                Api.registMeshi(meshiUploader)
                 activity!!.supportFragmentManager.popBackStack()
             } catch (t: Throwable) {
                 t.printStackTrace()
