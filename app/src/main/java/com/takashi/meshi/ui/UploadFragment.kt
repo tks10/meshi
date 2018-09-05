@@ -30,8 +30,6 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 
 
-
-
 class UploadFragment : Fragment() {
 
     private val RESULT_PICK_IMAGEFILE = 1001

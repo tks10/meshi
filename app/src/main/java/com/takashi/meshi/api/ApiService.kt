@@ -1,9 +1,6 @@
 package com.takashi.meshi.api
 
-import com.takashi.meshi.model.Id
-import com.takashi.meshi.model.Meshi
-import com.takashi.meshi.model.MeshiUploader
-import com.takashi.meshi.model.TestContainer
+import com.takashi.meshi.model.*
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.*
 
@@ -17,11 +14,10 @@ interface ApiService {
     fun test(): Deferred<Any>
 
     // Meshi
-    @GET("api/example/")
-    fun getMeshi(@Path("id") id: String): Deferred<List<Meshi>>
+    @GET("meshi/")
+    fun getMeshi(@Query("id") id: String): Deferred<MeshiContainer>
 
     // Auth
     @POST("meshi/")
     fun registMeshi(@Body meshiUploader: MeshiUploader): Deferred<Any>
-
 }

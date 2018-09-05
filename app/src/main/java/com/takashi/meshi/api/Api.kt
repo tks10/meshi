@@ -2,10 +2,7 @@ package com.takashi.meshi.api
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.takashi.meshi.BuildConfig
-import com.takashi.meshi.model.Id
-import com.takashi.meshi.model.Meshi
-import com.takashi.meshi.model.MeshiUploader
-import com.takashi.meshi.model.TestContainer
+import com.takashi.meshi.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -50,7 +47,7 @@ class Api {
         }
 
         // Auth
-        suspend fun getMeshi(id: String): List<Meshi> {
+        suspend fun getMeshi(id: String): MeshiContainer {
             return apiService.getMeshi(id).await()
         }
 

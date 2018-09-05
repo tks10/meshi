@@ -16,7 +16,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "IP_API", "\"https://kdc93adogk.execute-api.us-east-1.amazonaws.com/beta/\""
+        buildConfigField "String", "IP_API", "\"https://api.meshi.intern2018.awsjp.de/\""
     }
     buildTypes {
         release {

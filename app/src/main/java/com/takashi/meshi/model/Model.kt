@@ -8,6 +8,8 @@ data class Meshi (
         val created_at: Long
 )
 
+data class MeshiContainer(val Items: List<Meshi>)
+
 data class MeshiUploader (
         val id: String,
         val memo: String,
