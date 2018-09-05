@@ -15,6 +15,7 @@ import com.takashi.meshi.util.GlideApp
 import com.takashi.meshi.util.UUIDManager
 import com.takashi.meshi.util.getDateTime
 import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
+import kotlin.math.max
 
 
 class MeshiTopFragment : Fragment() {
@@ -36,18 +37,18 @@ class MeshiTopFragment : Fragment() {
         }
         recyclerView.adapter = adapter
 
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536046423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536053423))
         meshies.add(Meshi("", "", "KARE-", 1, 1536032023))
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1536026423))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536012023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536006423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536022023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536021423))
         meshies.add(Meshi("", "", "ONIGIRI", 1, 1535992023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536046423))
-        meshies.add(Meshi("", "", "OMUSUBI", 1, 1536032023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536026423))
-        meshies.add(Meshi("", "", "YAKISOBA", 1, 1536012023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536006423))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535992023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535966423))
+        meshies.add(Meshi("", "", "OMUSUBI", 1, 1535962023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535926423))
+        meshies.add(Meshi("", "", "YAKISOBA", 1, 1559012023))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1559900423))
+        meshies.add(Meshi("", "", "ONIGIRI", 1, 1559900023))
 
         adapter.notifyDataSetChanged()
 
@@ -57,12 +58,15 @@ class MeshiTopFragment : Fragment() {
 
 class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
     : RecyclerView.Adapter<MeshiListAdapter.ViewHolder>() {
+    private val BORDER_FACTOR = 0.02
+    private val BORDER_MINIMUM = 16
+    private val BORDER_THRESOHLD_SECOND = 5400L
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.meshi_icon)
         val memoTextView: TextView = view.findViewById(R.id.meshi_memo)
         val dateTimeTextView: TextView = view.findViewById(R.id.date_time_text_view)
-        // val dateTextView: TextView = view.findViewById(R.id.talk_date)
+        val border: View = view.findViewById(R.id.border)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -80,7 +84,22 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
                 .into(holder.imageView)
         holder.memoTextView.text = meshi.memo
         holder.dateTimeTextView.text = getDateTime(meshi.created_at)
+
+        if (position < meshies.size -1) {
+            holder.border.layoutParams.height = getDistanceBetween(meshies[position+1], meshi)
+        } else {
+            holder.border.layoutParams.height = 0
+        }
+
     }
 
     override fun getItemCount() = meshies.size
+
+    fun getDistanceBetween(from: Meshi, to: Meshi): Int {
+        val filteredSecond = max((to.created_at - from.created_at) - BORDER_THRESOHLD_SECOND,
+                                    BORDER_THRESOHLD_SECOND)
+        val offsetedDistance = filteredSecond - BORDER_THRESOHLD_SECOND
+
+        return ((offsetedDistance * BORDER_FACTOR) + BORDER_MINIMUM).toInt()
+    }
 }

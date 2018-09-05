@@ -62,7 +62,6 @@ class EditProfileFragment : Fragment() {
         return view
     }
 
-
     // image added by user will notice the fragment by these member imageUri.
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "NAME_SHADOWING")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
