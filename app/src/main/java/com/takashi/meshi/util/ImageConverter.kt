@@ -19,7 +19,7 @@ class ImageConverter{
             // The quality setting will be ignored because the format is lossless(PNG).
             resizedImage.compress(Bitmap.CompressFormat.PNG, 100, bos)
             return bos.toByteArray().let {
-                Base64.encodeToString(it, Base64.DEFAULT).replace("\n", "")
+                "data:image/png;base64," + Base64.encodeToString(it, Base64.DEFAULT).replace("\n", "")
             }
         }
 

@@ -10,17 +10,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.takashi.meshi.R
+import com.takashi.meshi.api.Api
 import com.takashi.meshi.model.Meshi
+import com.takashi.meshi.util.ApiErrorHandler
 import com.takashi.meshi.util.GlideApp
-import com.takashi.meshi.util.UUIDManager
+import com.takashi.meshi.util.UuidManager
 import com.takashi.meshi.util.getDateTime
 import kotlinx.android.synthetic.main.meshi_top_fragment.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import kotlin.math.max
 
 
 class MeshiTopFragment : Fragment() {
 
-    private val um by lazy { UUIDManager(activity!!) }
     private val meshies = mutableListOf<Meshi>()
     private val adapter: RecyclerView.Adapter<MeshiListAdapter.ViewHolder> by lazy {
         MeshiListAdapter(activity!!.applicationContext, meshies)
@@ -33,26 +36,28 @@ class MeshiTopFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.meshi_list)
 
         view.postMeshiButton.setOnClickListener {
-            (activity as NavigationHost).navigateTo(EditProfileFragment(), true)
+            (activity as NavigationHost).navigateTo(UploadFragment(), true)
         }
         recyclerView.adapter = adapter
 
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536053423))
-        meshies.add(Meshi("", "", "KARE-", 1, 1536032023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536026423))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536022023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1536021423))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535992023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535966423))
-        meshies.add(Meshi("", "", "OMUSUBI", 1, 1535962023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1535926423))
-        meshies.add(Meshi("", "", "YAKISOBA", 1, 1559012023))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1559900423))
-        meshies.add(Meshi("", "", "ONIGIRI", 1, 1559900023))
-
-        adapter.notifyDataSetChanged()
+        loadMeshies()
 
         return view
+    }
+
+    private fun loadMeshies() {
+        launch (UI) {
+            try {
+                val meshiContainer = Api.getMeshi(UuidManager(activity!!).getIdFromPreference()!!)
+                for ( m in meshiContainer.Items) {
+                    meshies.add(Meshi("", "", m.memo, 1, 1559900023))
+                }
+                adapter.notifyDataSetChanged()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                ApiErrorHandler.map(view!!, t).post()
+            }
+        }
     }
 }
 
@@ -85,7 +90,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
         holder.memoTextView.text = meshi.memo
         holder.dateTimeTextView.text = getDateTime(meshi.created_at)
 
-        if (position < meshies.size -1) {
+        if (position < meshies.size - 1) {
             holder.border.layoutParams.height = getDistanceBetween(meshies[position+1], meshi)
         } else {
             holder.border.layoutParams.height = 0

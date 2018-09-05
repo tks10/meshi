@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
@@ -14,13 +15,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.takashi.meshi.R
+import com.takashi.meshi.api.Api
+import com.takashi.meshi.model.MeshiUploader
+import com.takashi.meshi.util.ApiErrorHandler
+import com.takashi.meshi.util.ImageConverter
+import com.takashi.meshi.util.UuidManager
 import kotlinx.android.synthetic.main.upload_fragment.*
 import kotlinx.android.synthetic.main.upload_fragment.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import java.io.FileDescriptor
 import java.io.IOException
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 
 
-class EditProfileFragment : Fragment() {
+class UploadFragment : Fragment() {
 
     private val RESULT_PICK_IMAGEFILE = 1001
     private val RESULT_CAMERA = 1002
@@ -41,8 +51,17 @@ class EditProfileFragment : Fragment() {
             startActivityForResult(intent, RESULT_CAMERA)
         }
 
+        view.next_button.isEnabled = true
         view.next_button.setOnClickListener{
-            // TODO
+            val bitmapIcon = this@UploadFragment.imageView.drawable?.let {
+                (it as BitmapDrawable).bitmap
+            } ?: BitmapFactory.decodeResource(resources, R.drawable.onigiri)
+            val imageBase64 = ImageConverter.convertToBase64(bitmapIcon)
+            val meshiUploader = MeshiUploader(UuidManager(activity!!).getIdFromPreference()!!,
+                    view.username_edit_text.text.toString(),
+                    imageBase64)
+
+            registMeshi(meshiUploader)
         }
         view.cancel_button.setOnClickListener {
             activity!!.supportFragmentManager.popBackStack()
@@ -60,6 +79,36 @@ class EditProfileFragment : Fragment() {
         view.image_editing.setOnClickListener(intentFuncLiteral)
 
         return view
+    }
+
+    private fun registMeshi(meshiUploader: MeshiUploader) {
+        val rotate = RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f)
+
+        // animation時間 msec
+        rotate.duration = 700
+        // 繰り返し回数
+        rotate.repeatCount = 1000
+        // animationが終わったそのまま表示にする
+        rotate.fillAfter = true
+
+        launch (UI) {
+            try {
+                view?.next_button?.isEnabled = false
+                view?.loadingImageView?.visibility = View.VISIBLE
+                view?.loadingImageView?.startAnimation(rotate)
+                view?.scrollView?.alpha = 0.15f
+                Api.registMeshi(meshiUploader)
+                activity!!.supportFragmentManager.popBackStack()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                view?.next_button?.isEnabled = true
+                view?.loadingImageView?.visibility = View.INVISIBLE
+                view?.scrollView?.alpha = 1.0f
+                ApiErrorHandler.map(view!!, t).post()
+            }
+        }
     }
 
     // image added by user will notice the fragment by these member imageUri.
