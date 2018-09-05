@@ -85,7 +85,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
         holder.memoTextView.text = meshi.memo
         holder.dateTimeTextView.text = getDateTime(meshi.created_at)
 
-        if (position < meshies.size -1) {
+        if (position < meshies.size - 1) {
             holder.border.layoutParams.height = getDistanceBetween(meshies[position+1], meshi)
         } else {
             holder.border.layoutParams.height = 0

@@ -14,8 +14,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.takashi.meshi.R
+import com.takashi.meshi.api.Api
+import com.takashi.meshi.model.Meshi
 import kotlinx.android.synthetic.main.upload_fragment.*
 import kotlinx.android.synthetic.main.upload_fragment.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import java.io.FileDescriptor
 import java.io.IOException
 
@@ -42,7 +46,7 @@ class EditProfileFragment : Fragment() {
         }
 
         view.next_button.setOnClickListener{
-            // TODO
+            // registMeshi(meshi)
         }
         view.cancel_button.setOnClickListener {
             activity!!.supportFragmentManager.popBackStack()
@@ -60,6 +64,18 @@ class EditProfileFragment : Fragment() {
         view.image_editing.setOnClickListener(intentFuncLiteral)
 
         return view
+    }
+
+    private fun registMeshi(meshi: Meshi) {
+        launch (UI) {
+            try {
+                Api.registMeshi(meshi)
+                activity!!.supportFragmentManager.popBackStack()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                // ApiErrorHandler.map(view!!, t).post()
+            }
+        }
     }
 
     // image added by user will notice the fragment by these member imageUri.
