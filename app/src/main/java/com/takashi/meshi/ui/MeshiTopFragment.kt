@@ -49,8 +49,9 @@ class MeshiTopFragment : Fragment() {
         launch (UI) {
             try {
                 val meshiContainer = Api.getMeshi(UuidManager(activity!!).getIdFromPreference()!!)
+                meshies.clear()
                 for ( m in meshiContainer.Items) {
-                    meshies.add(Meshi("", "", m.memo, 1, 1559900023))
+                    meshies.add(Meshi("", "", m.memo, 1, m.time_stamp))
                 }
                 adapter.notifyDataSetChanged()
             } catch (t: Throwable) {
@@ -82,13 +83,12 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meshi = meshies[position]
-        val imageUrl =  "http://localhost:8000/"
         GlideApp.with(context)
                 .load(R.drawable.onigiri)
                 .fallback(R.drawable.onigiri)
                 .into(holder.imageView)
         holder.memoTextView.text = meshi.memo
-        holder.dateTimeTextView.text = getDateTime(meshi.created_at)
+        holder.dateTimeTextView.text = getDateTime(meshi.time_stamp.toLong())
 
         if (position < meshies.size - 1) {
             holder.border.layoutParams.height = getDistanceBetween(meshies[position+1], meshi)
@@ -101,7 +101,7 @@ class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
     override fun getItemCount() = meshies.size
 
     fun getDistanceBetween(from: Meshi, to: Meshi): Int {
-        val filteredSecond = max((to.created_at - from.created_at) - BORDER_THRESOHLD_SECOND,
+        val filteredSecond = max((to.time_stamp - from.time_stamp).toLong()/1000 - BORDER_THRESOHLD_SECOND,
                                     BORDER_THRESOHLD_SECOND)
         val offsetedDistance = filteredSecond - BORDER_THRESOHLD_SECOND
 

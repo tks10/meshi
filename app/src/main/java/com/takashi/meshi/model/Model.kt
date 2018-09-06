@@ -1,11 +1,11 @@
 package com.takashi.meshi.model
 
 data class Meshi (
-        val image_url: String,
+        val raw_path: String,
         val thumb_url: String,
         val memo: String,
         val category_id: Int,
-        val created_at: Long
+        val time_stamp: Double
 )
 
 data class MeshiContainer(val Items: List<Meshi>)
