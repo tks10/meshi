@@ -2,7 +2,7 @@ package com.takashi.meshi.model
 
 data class Meshi (
         val raw_path: String,
-        val thumb_url: String,
+        val thumb_path: String,
         val memo: String,
         val category_id: Int,
         val time_stamp: Double
