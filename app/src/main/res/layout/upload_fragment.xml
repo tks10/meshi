@@ -77,9 +77,19 @@
                     android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
 
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="8dp" >
+
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/locationSwitch"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/next_button"
+                    app:layout_constraintBottom_toBottomOf="@id/next_button" />
 
                 <android.support.design.button.MaterialButton
                     android:id="@+id/next_button"
@@ -89,21 +99,22 @@
                     android:layout_alignParentRight="true"
                     android:text="Post"
                     android:enabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlHardcoded" />
 
-                <android.support.design.button.MaterialButton
+                <TextView
                     android:id="@+id/cancel_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_toStartOf="@id/next_button"
-                    android:layout_toLeftOf="@id/next_button"
-                    android:text="Cancel"
+                    app:layout_constraintStart_toEndOf="@id/locationSwitch"
+                    app:layout_constraintTop_toTopOf="@id/next_button"
+                    app:layout_constraintBottom_toBottomOf="@id/next_button"
+                    android:text="Attach Location"
                     tools:ignore="RtlHardcoded" />
 
-            </RelativeLayout>
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

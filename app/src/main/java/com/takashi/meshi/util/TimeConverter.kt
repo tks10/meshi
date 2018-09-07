@@ -6,7 +6,7 @@ import java.util.*
 fun getDateTime(unixTime: Long): String? {
     try {
         val sdf = SimpleDateFormat("MM/dd H:mm")
-        val netDate = Date(unixTime * 1000)
+        val netDate = Date(unixTime)
         return sdf.format(netDate)
     } catch (e: Throwable) {
         return e.toString()
