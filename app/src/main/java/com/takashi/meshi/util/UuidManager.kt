@@ -6,8 +6,8 @@ import java.util.*
 
 class UuidManager(val context: Context){
     companion object {
-        val PREF_NAME = "ID"
-        val KEY = "UUID"
+        const val PREF_NAME = "ID"
+        const val KEY = "UUID"
 
         fun generateUUID(): String{
             return UUID.randomUUID().toString()
