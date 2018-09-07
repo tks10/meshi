@@ -106,7 +106,9 @@ class UploadFragment : Fragment() {
                 view?.next_button?.isEnabled = true
                 view?.loadingImageView?.visibility = View.INVISIBLE
                 view?.scrollView?.alpha = 1.0f
-                ApiErrorHandler.map(view!!, t).post()
+                view?.let {
+                    ApiErrorHandler.map(view!!, t).post()
+                }
             }
         }
     }

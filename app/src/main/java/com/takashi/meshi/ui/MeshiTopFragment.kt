@@ -56,7 +56,9 @@ class MeshiTopFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             } catch (t: Throwable) {
                 t.printStackTrace()
-                ApiErrorHandler.map(view!!, t).post()
+                view?.let {
+                    ApiErrorHandler.map(it, t).post()
+                }
             }
         }
     }
