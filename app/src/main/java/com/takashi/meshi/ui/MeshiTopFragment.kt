@@ -66,7 +66,7 @@ class MeshiTopFragment : Fragment() {
 
 class MeshiListAdapter(val context: Context, private val meshies: List<Meshi>)
     : RecyclerView.Adapter<MeshiListAdapter.ViewHolder>() {
-    private val BORDER_FACTOR = 0.02
+    private val BORDER_FACTOR = 0.012
     private val BORDER_MINIMUM = 16
     private val BORDER_THRESOHLD_SECOND = 5400L
 
